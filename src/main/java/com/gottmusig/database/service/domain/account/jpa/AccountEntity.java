@@ -75,6 +75,7 @@ public class AccountEntity implements Account {
                 this, (CharacterEntity) character);
         if (!relationEntityOptional.isPresent()) {
             addAccountRelation(character);
+            characters.add((CharacterEntity) character);
         }
         return character;
     }
