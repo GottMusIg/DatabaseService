@@ -10,6 +10,8 @@ import com.gottmusig.database.service.domain.jpa.NumericSequenceId;
 import com.gottmusig.database.service.domain.jpa.SpringEntityListener;
 import com.gottmusig.database.service.domain.realm.Realm;
 import com.gottmusig.database.service.domain.realm.jpa.RealmEntity;
+import com.gottmusig.database.service.domain.simulation.SimulationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.*;
@@ -25,6 +27,9 @@ import java.util.Optional;
 @Table(name = "wowcharacter")
 @EntityListeners(SpringEntityListener.class)
 public class CharacterEntity implements Character {
+
+    @Autowired
+    private transient SimulationService simulationService;
 
     @EmbeddedId
     private NumericSequenceId id;
@@ -137,11 +142,19 @@ public class CharacterEntity implements Character {
 
     @Override
     public int getDPS() {
+
         return dps;
     }
     public void setDPS(int dps) {
         this.dps = dps;
     }
+
+    public int calculateDps(){
+
+        simulationService.simulateDPS(this);
+        return this.dps;
+    }
+
 
     @Override
     public ClassSpecification getClassSpecification() {
@@ -199,6 +212,7 @@ public class CharacterEntity implements Character {
         this.trinket1 = (ItemEntity) equipmentSet.getTrinket1();
         this.trinket2 = (ItemEntity) equipmentSet.getTrinket2();
     }
+
 
     @Override
     public NumericSequenceId getId() {

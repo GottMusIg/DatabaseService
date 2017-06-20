@@ -8,6 +8,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @author leong
  * @since 24.11.2016
  */
+
 public class Application extends SpringApplication {
 
     public Application() {
