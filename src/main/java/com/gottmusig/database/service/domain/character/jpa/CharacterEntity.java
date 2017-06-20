@@ -151,9 +151,8 @@ public class CharacterEntity implements Character {
         this.dps = dps;
     }
 
-    public int calculateDps(){
+    public void calculateDps(){
         simulationService.simulateDPS(this);
-        return this.dps;
     }
 
 
