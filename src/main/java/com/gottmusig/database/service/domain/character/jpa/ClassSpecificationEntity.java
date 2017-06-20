@@ -8,12 +8,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.gottmusig.database.service.domain.dpsdifference.SpecificationDPS;
+import com.gottmusig.database.service.domain.dpsdifference.jpa.SpecificationDPSEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 
 import com.gottmusig.database.service.domain.character.ClassSpecification;
 import com.gottmusig.database.service.domain.character.WOWClass;
 import com.gottmusig.database.service.domain.jpa.NumericSequenceId;
 import com.gottmusig.database.service.domain.jpa.SpringEntityListener;
+
+import java.util.Iterator;
 
 /**
  * @author leong
@@ -23,6 +29,9 @@ import com.gottmusig.database.service.domain.jpa.SpringEntityListener;
 @Table(name = "classspecification")
 @EntityListeners(SpringEntityListener.class)
 public class ClassSpecificationEntity implements ClassSpecification {
+
+    @Autowired
+    private transient SpecificationDPSEntity.SpecificationDPSRepository specificationDPSRepository;
 
     @EmbeddedId
     @Column(name = "id")
@@ -36,6 +45,20 @@ public class ClassSpecificationEntity implements ClassSpecification {
 
     public ClassSpecificationEntity() {
         this.id = new NumericSequenceId();
+    }
+
+    @Override
+    public SpecificationDPS getSpecificationDPS() {
+        //TODO fix this pls!!!
+        Iterator<SpecificationDPSEntity> iterator = specificationDPSRepository.findAll().iterator();
+        SpecificationDPS specificationDPS = null;
+        while (iterator.hasNext()) {
+            SpecificationDPSEntity next = iterator.next();
+            if (next.getSpecification().getName().equals(this.getName())) {
+                specificationDPS = next;
+            }
+        }
+        return specificationDPS;
     }
 
     @Override

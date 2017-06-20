@@ -51,88 +51,88 @@ INSERT INTO gmidb.classspecification (name, wowclass_id) VALUES ('Fury',(SELECT 
 INSERT INTO gmidb.specificationdps (dps, classspecification_id) VALUES (417063, (SELECT id
                                                                                  FROM gmidb.classspecification
                                                                                  WHERE name = 'Fury')),
-  (420973, (SELECT id
+  ((628972, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Arms')),
   (0,(SELECT id FROM gmidb.classspecification WHERE name = 'Protection' AND classspecification.wowclass_id = (SELECT id FROM gmidb.wowclass WHERE gmidb.wowclass.name = 'Warrior'))),
   (0,(SELECT id FROM gmidb.classspecification WHERE name = 'Holy' AND classspecification.wowclass_id = (SELECT id FROM gmidb.wowclass WHERE gmidb.wowclass.name = 'Paladin'))),
   (0,(SELECT id FROM gmidb.classspecification WHERE name = 'Protection'AND classspecification.wowclass_id = (SELECT id FROM gmidb.wowclass WHERE gmidb.wowclass.name = 'Paladin'))),
-  (398254, (SELECT id
+  (563166, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Retribution')),
-  (359598, (SELECT id
+  (590190, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Beast Mastery')),
-  (344744, (SELECT id
+  (598869, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Marksmanship')),
-  (362074, (SELECT id
+  (633101, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Survival')),
-  (388832, (SELECT id
+  (661814, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Assassination')),
-  (385378, (SELECT id
+  (670352, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Outlaw')),
-  (379931, (SELECT id
+  (635109, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Subtlety')),
   (0,(SELECT id FROM gmidb.classspecification WHERE name = 'Holy' AND classspecification.wowclass_id = (SELECT id FROM gmidb.wowclass WHERE gmidb.wowclass.name = 'Priest'))),
-  (340688, (SELECT id
+  (547970, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Shadow')),
   (0,(SELECT id FROM gmidb.classspecification WHERE name = 'Discipline')),
   (0,(SELECT id FROM gmidb.classspecification WHERE name = 'Blood')),
-  (372127, (SELECT id
+  (624289, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Frost' AND classspecification.wowclass_id = (SELECT id
                                                                        FROM gmidb.wowclass
                                                                        WHERE gmidb.wowclass.name = 'Death Knight'))),
-  (341534, (SELECT id
+  (636476, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Unholy')),
-  (361802, (SELECT id
+  (574158, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Elemental')),
-  (385264, (SELECT id
+  (599603, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Enhancement')),
   (0,(SELECT id FROM gmidb.classspecification WHERE name = 'Restoration' AND classspecification.wowclass_id = (SELECT id FROM gmidb.wowclass WHERE gmidb.wowclass.name = 'Shaman'))),
-  (427221, (SELECT id
+  (746472, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Frost' AND classspecification.wowclass_id = (SELECT id
                                                                        FROM gmidb.wowclass
                                                                        WHERE gmidb.wowclass.name = 'Mage'))),
-  (387155, (SELECT id
+  (677949, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Arcane')),
-  (375833, (SELECT id
+  (624995, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Fire')),
-  (339744, (SELECT id
+  (581907, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Affliction')),
-  (346306, (SELECT id
+  (556606, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Destruction')),
-  (417562, (SELECT id
+  (608384, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Demonology')),
   (0,(SELECT id FROM gmidb.classspecification WHERE name = 'Brewmaster')),
-  (360956, (SELECT id
+  (531282, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Windwalker')),
   (0,(SELECT id FROM gmidb.classspecification WHERE name = 'Mistweaver')),
   (0,(SELECT id FROM gmidb.classspecification WHERE name = 'Guardian')),
-  (367482, (SELECT id
+  (571717, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Balance')),
-  (413077, (SELECT id
+  (629770, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Feral')),
   (0,(SELECT id FROM gmidb.classspecification WHERE name = 'Restoration' AND classspecification.wowclass_id = (SELECT id FROM gmidb.wowclass WHERE gmidb.wowclass.name = 'Druid'))),
-  (363694, (SELECT id
+  (591611, (SELECT id
             FROM gmidb.classspecification
             WHERE name = 'Havoc')),
   (0,(SELECT id FROM gmidb.classspecification WHERE name = 'Vengeance'));
