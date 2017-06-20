@@ -2,6 +2,7 @@ package com.gottmusig.database.service.domain.character;
 
 
 import com.gottmusig.database.service.domain.Entity;
+import com.gottmusig.database.service.domain.dpsdifference.SpecificationDPS;
 
 /**
  * @author Leon Gottschick
@@ -19,6 +20,8 @@ public interface ClassSpecification extends Entity {
      * @return the WOWClass the Specification is belonging to
      */
     WOWClass getWOWClass();
+
+    SpecificationDPS getSpecificationDPS();
 
 
 }

@@ -22,8 +22,7 @@ public class Application extends SpringApplication {
 
         GottMusIg bean = run.getBean(GottMusIg.class);
         Character character = bean.characterService().searchCharacter("Blackhand", "Malahkh").get();
-        Character character1 = bean.simulationService().simulateDPS(character);
-
+        int dps = character.getClassSpecification().getSpecificationDPS().getDPS();
     }
 
 

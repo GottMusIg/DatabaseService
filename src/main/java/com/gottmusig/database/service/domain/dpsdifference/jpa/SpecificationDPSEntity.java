@@ -72,5 +72,8 @@ public class SpecificationDPSEntity implements SpecificationDPS {
 
         SpecificationDPS findFirstByDpsGreaterThan(int dps, Sort sort);
 
+
+        SpecificationDPS findBySpecification_Id(NumericSequenceId specification_id);
+
     }
 }
