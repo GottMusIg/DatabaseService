@@ -142,7 +142,9 @@ public class CharacterEntity implements Character {
 
     @Override
     public int getDPS() {
-
+        if (dps == 0.0) {
+            calculateDps();
+        }
         return dps;
     }
     public void setDPS(int dps) {
@@ -150,7 +152,6 @@ public class CharacterEntity implements Character {
     }
 
     public int calculateDps(){
-
         simulationService.simulateDPS(this);
         return this.dps;
     }
