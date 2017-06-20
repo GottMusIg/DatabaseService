@@ -2,11 +2,16 @@ package com.gottmusig.database.service.domain.simulation.jpa;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gottmusig.database.service.domain.character.Character;
 import com.gottmusig.database.service.domain.simulation.SimulationService;
-import com.gottmusig.gottmusig.model.dpscalculation.Player;
-import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraft;
+import com.gottmusig.database.service.domain.simulation.jpa.simulationcraft.Player;
+import com.gottmusig.database.service.domain.simulation.jpa.simulationcraft.Sim;
+import com.gottmusig.database.service.domain.simulation.jpa.simulationcraft.SimulationCraft;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,6 +29,7 @@ public class SimulationServiceImpl implements SimulationService {
     private static final String REGION = "region";
     private static final String REALM = "realm";
     private static final String USER = "user";
+    private ObjectMapper mapper = new ObjectMapper();
 
     private final Client client;
 
@@ -35,9 +41,12 @@ public class SimulationServiceImpl implements SimulationService {
     @Override
     public Character simulateDPS(Character character) {
 
-        SimulationCraft simulation = getSimulationFor(character);
+
+        String simulation = getSimulationFor(character);
+
         try {
-            int dps = getDpsFor(character, simulation);
+            SimulationCraft simulationCraft = mapper.readValue(simulation, SimulationCraft.class);
+            int dps = getDpsFor(character, simulationCraft);
             character.setDPS(dps);
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,12 +55,13 @@ public class SimulationServiceImpl implements SimulationService {
 
     }
 
-    private SimulationCraft getSimulationFor(Character character){
+    private String getSimulationFor(Character character){
         WebTarget target = client.target(BASE_URL).path(SIMULATION_PATH) //
                 .queryParam(REGION, "eu") //TODO
                 .queryParam(REALM, character.getRealm().getName()) //
                 .queryParam(USER, character.getName());
-        return target.request().get(SimulationCraft.class);
+                return target.request(MediaType.APPLICATION_JSON).buildGet().invoke().readEntity(String.class);
+
     }
 
     private int getDpsFor(Character character, SimulationCraft simulationCraft) throws Exception {
