@@ -18,11 +18,9 @@ public class Application extends SpringApplication {
     }
 
     public static void main(String[] args) {
+
         ConfigurableApplicationContext run = new Application().run(args);
 
-        GottMusIg bean = run.getBean(GottMusIg.class);
-        Character character = bean.characterService().searchCharacter("Blackhand", "Malahkh").get();
-        int dps = character.getClassSpecification().getSpecificationDPS().getDPS();
     }
 
 
