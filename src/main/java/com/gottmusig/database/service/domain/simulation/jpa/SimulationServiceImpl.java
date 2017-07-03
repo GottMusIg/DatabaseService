@@ -1,5 +1,9 @@
 package com.gottmusig.database.service.domain.simulation.jpa;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gottmusig.database.service.domain.character.Character;
 import com.gottmusig.database.service.domain.character.jpa.exception.CharacterNotFoundException;
@@ -9,6 +13,9 @@ import com.gottmusig.database.service.domain.simulation.jpa.simulationcraft.Play
 import com.gottmusig.database.service.domain.simulation.jpa.simulationcraft.SimulationCraft;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import javax.ws.rs.client.Client;
@@ -24,16 +31,12 @@ import java.io.IOException;
  * @since 1.0.0-SNAPSHOT
  */
 @Service
+@PropertySource({ "classpath:/simulation.properties" })
 public class SimulationServiceImpl implements SimulationService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SpringEntityListener.class);
+    @Autowired
+    private Environment env;
 
-    private static final String BASE_URL = "http://localhost:8080/";
-    private static final String SIMULATION_PATH = "gottmusig-simulation/rest/simulation/player";
-
-    private static final String REGION = "region";
-    private static final String REALM = "realm";
-    private static final String USER = "user";
     private ObjectMapper mapper = new ObjectMapper();
 
     private final Client client;
@@ -64,10 +67,10 @@ public class SimulationServiceImpl implements SimulationService {
     }
 
     private String getSimulationFor(Character character){
-        WebTarget target = client.target(BASE_URL).path(SIMULATION_PATH) //
-                .queryParam(REGION, "eu") //TODO
-                .queryParam(REALM, character.getRealm().getName()) //
-                .queryParam(USER, character.getName());
+        WebTarget target = client.target(env.getRequiredProperty("BASE_URL")).path(env.getRequiredProperty("PLAYER_SIMULATION_PATH")) //
+                .queryParam(env.getRequiredProperty("REGION"), "eu") //TODO
+                .queryParam(env.getRequiredProperty("REALM"), character.getRealm().getName()) //
+                .queryParam(env.getRequiredProperty("USER"), character.getName());
                 return target.request(MediaType.APPLICATION_JSON).buildGet().invoke().readEntity(String.class);
 
     }
