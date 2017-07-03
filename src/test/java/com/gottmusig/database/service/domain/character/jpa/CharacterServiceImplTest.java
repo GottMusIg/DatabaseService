@@ -95,6 +95,7 @@ public class CharacterServiceImplTest {
         characterEntity.setEquipmentSet(equipmentSet());
         characterEntity.setClassSpecification(classSpecificationRepository.findByName("Fury"));
         characterEntity.setRealm(realmRepository.findByName("Blackhand").get());
+        characterEntity.setThumbnailId("test");
         return characterEntity;
     }
 
