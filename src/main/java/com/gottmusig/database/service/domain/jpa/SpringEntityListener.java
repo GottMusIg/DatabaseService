@@ -41,13 +41,13 @@ public class SpringEntityListener {
     @PostLoad
     @PostPersist
     public void inject(Object object) {
-        AutowireCapableBeanFactory beanFactory = get().getBeanFactory();
-        if (beanFactory == null) {
+        AutowireCapableBeanFactory factory = get().getBeanFactory();
+        if (factory == null) {
             LOG.debug("Bean Factory not set! Depdendencies will not be injected into: '{}'", object);
             return;
         }
         LOG.debug("Injecting dependencies into entity: '{}'", object);
-        beanFactory.autowireBean(object);
+        factory.autowireBean(object);
     }
 
 }

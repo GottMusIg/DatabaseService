@@ -31,7 +31,7 @@ public class CharacterServiceImpl implements CharacterService {
     @Autowired RealmRepository realmRepository;
     @Autowired WOWClassRepository wowClassRepository;
 
-    private final transient Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
     @Override
     public Optional<Character> searchCharacter(String realmName, String name) {
@@ -44,7 +44,8 @@ public class CharacterServiceImpl implements CharacterService {
         if(characterOptional.isPresent()) {
             return characterOptional;
         }
-        return searchCharacterViaBlizzard(name, realm);
+        Optional<Character> characterViaBlizzard = searchCharacterViaBlizzard(name, realm);
+        return characterViaBlizzard.map(this::saveCharacter);
     }
 
     @Override

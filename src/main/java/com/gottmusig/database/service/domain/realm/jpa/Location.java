@@ -8,14 +8,24 @@ import java.util.List;
  * @since 27.09.2016
  */
 public enum Location {
-    de_DE,
-    en_GB,
-    ru_RU,
-    fr_FR,
-    es_ES,
-    it_IT,
-    pt_BR;
 
+    deDE("de_DE"),
+    enGB("en_GB"),
+    ruRU("ru_RU"),
+    frFR("fr_FR"),
+    esES("es_ES"),
+    itIT("it_IT"),
+    ptBR("pt_BR");
+
+    private final String location;
+
+    Location(String location) {
+        this.location = location;
+    }
+
+    public String getLocation() {
+        return location;
+    }
 
     /**
      * Creates a list with all {@link Location} and returns it.

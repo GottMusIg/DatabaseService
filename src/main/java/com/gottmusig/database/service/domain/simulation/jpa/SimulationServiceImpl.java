@@ -1,18 +1,16 @@
 package com.gottmusig.database.service.domain.simulation.jpa;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gottmusig.database.service.domain.character.Character;
 import com.gottmusig.database.service.domain.simulation.SimulationService;
 import com.gottmusig.database.service.domain.simulation.jpa.simulationcraft.Player;
-import com.gottmusig.database.service.domain.simulation.jpa.simulationcraft.Sim;
 import com.gottmusig.database.service.domain.simulation.jpa.simulationcraft.SimulationCraft;
 import org.springframework.stereotype.Service;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 
 /**
  * Description

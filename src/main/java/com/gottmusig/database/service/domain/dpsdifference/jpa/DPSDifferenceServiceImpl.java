@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class DPSDifferenceServiceImpl implements DPSDifferenceService {
 
-    private final static transient Sort DPSDIFFERENCE_SORT_ORDER = new Sort(Sort.Direction.DESC, "dps");
+    private static final Sort DPSDIFFERENCE_SORT_ORDER = new Sort(Sort.Direction.DESC, "dps");
 
     @Autowired SpecificationDPSEntity.SpecificationDPSRepository dpsRepository;
 

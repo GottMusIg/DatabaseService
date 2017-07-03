@@ -39,10 +39,6 @@ public class WOWClassEntity implements WOWClass {
         return id;
     }
 
-    public void setId(NumericSequenceId id) {
-        this.id = id;
-    }
-
     public interface WOWClassRepository extends CrudRepository<WOWClassEntity, NumericSequenceId> {
 
         WOWClassEntity findByName(String name);

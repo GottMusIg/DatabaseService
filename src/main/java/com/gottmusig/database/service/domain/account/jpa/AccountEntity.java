@@ -81,10 +81,10 @@ public class AccountEntity implements Account {
     }
 
     private void addAccountRelation(Character character) {
-        character = characterService.saveCharacter(character);
+        Character updatedCharacter = characterService.saveCharacter(character);
         CharacterAccountRelationEntity characterAccountRelationEntity = new CharacterAccountRelationEntity();
         characterAccountRelationEntity.setAccount(this);
-        characterAccountRelationEntity.setCharacter((CharacterEntity) character);
+        characterAccountRelationEntity.setCharacter((CharacterEntity) updatedCharacter);
         accountRelationRepository.save(characterAccountRelationEntity);
     }
 
@@ -95,9 +95,9 @@ public class AccountEntity implements Account {
 
     @Override
     public Set<Character> getCharacters() {
-        Set<Character> characters = new HashSet<>();
-        characters.addAll(this.characters);
-        return characters;
+        Set<Character> characterList = new HashSet<>();
+        characterList.addAll(this.characters);
+        return characterList;
     }
 
     @Override

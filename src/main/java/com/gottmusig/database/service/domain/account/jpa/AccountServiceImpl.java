@@ -1,14 +1,13 @@
 package com.gottmusig.database.service.domain.account.jpa;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.gottmusig.database.service.domain.account.Account;
 import com.gottmusig.database.service.domain.account.AccountService;
 import com.gottmusig.database.service.domain.account.jpa.AccountEntity.AccountRepository;
 import com.gottmusig.database.service.domain.account.jpa.exception.CharacterAlreadyExistsException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * Description
@@ -22,7 +21,7 @@ public class AccountServiceImpl implements AccountService {
     @Autowired AccountRepository accountRepository;
 
     @Override
-    public Account register(String userName, String password) throws CharacterAlreadyExistsException {
+    public Account register(String userName, String password) {
         AccountEntity account = new AccountEntity();
         account.setPassword(password);
         account.setUserName(userName);

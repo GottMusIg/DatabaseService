@@ -1,24 +1,15 @@
 package com.gottmusig.database.service.domain.character.jpa;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import com.gottmusig.database.service.domain.dpsdifference.SpecificationDPS;
-import com.gottmusig.database.service.domain.dpsdifference.jpa.SpecificationDPSEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.CrudRepository;
-
 import com.gottmusig.database.service.domain.character.ClassSpecification;
 import com.gottmusig.database.service.domain.character.WOWClass;
+import com.gottmusig.database.service.domain.dpsdifference.SpecificationDPS;
+import com.gottmusig.database.service.domain.dpsdifference.jpa.SpecificationDPSEntity;
 import com.gottmusig.database.service.domain.jpa.NumericSequenceId;
 import com.gottmusig.database.service.domain.jpa.SpringEntityListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 
+import javax.persistence.*;
 import java.util.Iterator;
 
 /**
