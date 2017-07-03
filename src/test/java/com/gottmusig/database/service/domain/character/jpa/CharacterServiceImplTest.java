@@ -41,7 +41,7 @@ public class CharacterServiceImplTest {
 
     private Gson gson = new Gson();
 
-    SQLUtil sqlUtil;
+    private SQLUtil sqlUtil;
 
     @Autowired
     private
@@ -55,15 +55,19 @@ public class CharacterServiceImplTest {
     CharacterServiceImpl characterService;
 
     @Autowired
+    private
     CharacterEntity.CharacterRepository characterRepository;
 
     @Autowired
+    private
     RealmEntity.RealmRepository realmRepository;
 
     @Autowired
+    private
     WOWClassEntity.WOWClassRepository wowClassRepository;
 
     @Autowired
+    private
     ClassSpecificationEntity.ClassSpecificationRepository classSpecificationRepository;
 
 
