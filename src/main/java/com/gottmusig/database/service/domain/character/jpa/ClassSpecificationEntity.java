@@ -40,7 +40,7 @@ public class ClassSpecificationEntity implements ClassSpecification {
 
     @Override
     public SpecificationDPS getSpecificationDPS() {
-        //TODO fix this pls!!!
+        // fix
         Iterator<SpecificationDPSEntity> iterator = specificationDPSRepository.findAll().iterator();
         SpecificationDPS specificationDPS = null;
         while (iterator.hasNext()) {

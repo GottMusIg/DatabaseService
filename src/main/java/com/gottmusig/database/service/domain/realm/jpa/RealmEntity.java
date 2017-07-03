@@ -46,7 +46,7 @@ public class RealmEntity implements Realm {
         return Location.valueOf(location);
     }
     public void setLocation(Location location) {
-        this.location = location.getLocation();
+        this.location = location.getName();
     }
 
     @Override

@@ -109,7 +109,7 @@ public class CharacterServiceImplTest {
         sqlUtil.execute(Files.readAllBytes(loader.getResource("classpath:create_schema.sql").getFile().toPath()));
         sqlUtil.execute(Files.readAllBytes(loader.getResource("classpath:create_tables.sql").getFile().toPath()));
         RealmEntity realmEntity = new RealmEntity();
-        realmEntity.setLocation(Location.deDE);
+        realmEntity.setLocation(Location.DEDE);
         realmEntity.setName("Blackhand");
         realmRepository.save(realmEntity);
         WOWClassEntity wowClassEntity = new WOWClassEntity();

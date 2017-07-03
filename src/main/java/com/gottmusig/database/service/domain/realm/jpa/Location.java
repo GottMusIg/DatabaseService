@@ -9,22 +9,22 @@ import java.util.List;
  */
 public enum Location {
 
-    deDE("de_DE"),
-    enGB("en_GB"),
-    ruRU("ru_RU"),
-    frFR("fr_FR"),
-    esES("es_ES"),
-    itIT("it_IT"),
-    ptBR("pt_BR");
+    DEDE("de_DE"),
+    ENGB("en_GB"),
+    RURU("ru_RU"),
+    FRFR("fr_FR"),
+    ESES("es_ES"),
+    ITIT("it_IT"),
+    PTBR("pt_BR");
 
-    private final String location;
+    private final String name;
 
     Location(String location) {
-        this.location = location;
+        this.name = location;
     }
 
-    public String getLocation() {
-        return location;
+    public String getName() {
+        return name;
     }
 
     /**

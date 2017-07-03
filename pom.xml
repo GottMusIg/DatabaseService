@@ -30,7 +30,7 @@
     </distributionManagement>
 
     <build>
-        <finalName>${artifactId}-${version}</finalName>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -73,7 +73,7 @@
                 <version>2.8.1</version>
                 <configuration>
                     <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
-                    <file>${artifactId}-${version}</file>
+                    <file>${project.artifactId}-${project.version}</file>
                 </configuration>
             </plugin>
                 <plugin>

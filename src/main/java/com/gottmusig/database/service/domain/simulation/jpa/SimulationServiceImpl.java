@@ -66,7 +66,7 @@ public class SimulationServiceImpl implements SimulationService {
 
     private String getSimulationFor(Character character){
         WebTarget target = client.target(env.getRequiredProperty("BASE_URL")).path(env.getRequiredProperty("PLAYER_SIMULATION_PATH")) //
-                .queryParam(env.getRequiredProperty("REGION"), "eu") //TODO
+                .queryParam(env.getRequiredProperty("REGION"), "eu") // fix
                 .queryParam(env.getRequiredProperty("REALM"), character.getRealm().getName()) //
                 .queryParam(env.getRequiredProperty("USER"), character.getName());
                 return target.request(MediaType.APPLICATION_JSON).buildGet().invoke().readEntity(String.class);

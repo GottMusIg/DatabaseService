@@ -3,7 +3,6 @@ package com.gottmusig.database.service.domain.character.jpa;
 import com.google.common.collect.Lists;
 import com.gottmusig.database.service.domain.character.jpa.characterpojo.GeneralItem;
 import com.gottmusig.database.service.domain.character.jpa.characterpojo.TooltipParams;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -78,18 +77,8 @@ public class WoWHeadTooltipGeneratorTest  {
 
     @Test
     public void testConvert() throws Exception {
-
         WoWHeadToolTip convert = woWHeadTooltipGenerator().convert(generalItem());
         assertEquals("item=10&bonus=1:2:3:4&ench=123&gems=1234:123456", convert.getTooltip());
-
-    }
-
-    @Test
-    @Ignore
-    public void testConvertIfNoGems() throws Exception {
-
-        GeneralItem generalItem = generalItem();
-
 
     }
 
