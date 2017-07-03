@@ -6,11 +6,7 @@ import com.gottmusig.database.service.domain.realm.Realm;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +46,7 @@ public class RealmEntity implements Realm {
         return Location.valueOf(location);
     }
     public void setLocation(Location location) {
-        this.location = location.name();
+        this.location = location.getLocation();
     }
 
     @Override

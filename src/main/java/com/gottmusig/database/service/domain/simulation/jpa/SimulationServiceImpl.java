@@ -4,16 +4,25 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gottmusig.database.service.domain.character.Character;
+import com.gottmusig.database.service.domain.character.jpa.exception.CharacterNotFoundException;
+import com.gottmusig.database.service.domain.jpa.SpringEntityListener;
 import com.gottmusig.database.service.domain.simulation.SimulationService;
 import com.gottmusig.database.service.domain.simulation.jpa.simulationcraft.Player;
 import com.gottmusig.database.service.domain.simulation.jpa.simulationcraft.SimulationCraft;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 
 /**
  * Description
@@ -47,9 +56,12 @@ public class SimulationServiceImpl implements SimulationService {
             SimulationCraft simulationCraft = mapper.readValue(simulation, SimulationCraft.class);
             int dps = getDpsFor(character, simulationCraft);
             character.setDPS(dps);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (CharacterNotFoundException e) {
+            LOG.error("dps for character {}", character.getName());
+        } catch (IOException e) {
+            LOG.error("JSON parsing failed for character {}", simulation);
         }
+
         return character;
 
     }
@@ -63,12 +75,12 @@ public class SimulationServiceImpl implements SimulationService {
 
     }
 
-    private int getDpsFor(Character character, SimulationCraft simulationCraft) throws Exception {
+    private int getDpsFor(Character character, SimulationCraft simulationCraft) throws CharacterNotFoundException {
         for(Player player : simulationCraft.getSim().getPlayers()){
             if(player.getName().equals(character.getName())){
                 return player.getCollectedData().getDps().getMean().intValue();
             }
         }
-        throw new Exception("Something went wrong while getting dps for character "+character.getName());
+        throw new CharacterNotFoundException("Something went wrong while getting dps for character "+character.getName());
     }
 }

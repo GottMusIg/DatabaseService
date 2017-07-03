@@ -1,296 +1,243 @@
-CREATE TABLE `account` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(64) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC))
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
+create table account
+(
+	id int auto_increment
+		primary key,
+	name varchar(45) not null,
+	password varchar(64) not null,
+	constraint name_UNIQUE
+		unique (name)
+)
+;
 
--- -----------------------------------------------------
--- Table `gmidb`.`wowclass`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `gmidb`.`wowclass` ;
+create table characteraccountrelation
+(
+	id int auto_increment
+		primary key,
+	character_id int not null,
+	account_id int not null,
+	constraint characteraccountrelation_account_id_fk
+		foreign key (account_id) references gmidb.account (id)
+)
+;
 
-CREATE TABLE IF NOT EXISTS `gmidb`.`wowclass` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `name_UNIQUE1` (`name` ASC))
-  ENGINE = InnoDB
-  AUTO_INCREMENT = 13
-  DEFAULT CHARSET = utf8;
+create index characteraccountrelation_account_id_fk
+	on characteraccountrelation (account_id)
+;
 
+create index characteraccountrelation_wowcharacter_id_fk
+	on characteraccountrelation (character_id)
+;
 
--- -----------------------------------------------------
--- Table `gmidb`.`classspecification`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `gmidb`.`classspecification` ;
+create table classspecification
+(
+	id int auto_increment
+		primary key,
+	name varchar(45) not null,
+	WOWClass_id int not null
+)
+;
 
-CREATE TABLE IF NOT EXISTS `gmidb`.`classspecification` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `WOWClass_id` INT(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_classSpecification_WOWClass1_idx` (`WOWClass_id` ASC),
-  CONSTRAINT `fk_classSpecification_WOWClass1`
-  FOREIGN KEY (`WOWClass_id`)
-  REFERENCES `gmidb`.`wowclass` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-  ENGINE = InnoDB
-  AUTO_INCREMENT = 38
-  DEFAULT CHARSET = utf8;
+create index fk_classSpecification_WOWClass1_idx
+	on classspecification (WOWClass_id)
+;
 
+create table item
+(
+	id int auto_increment
+		primary key,
+	wowhead_tooltip varchar(100) not null,
+	context varchar(45) not null,
+	name varchar(45) not null,
+	item_level int not null,
+	icon_tooltip varchar(100) not null
+)
+;
 
--- -----------------------------------------------------
--- Table `gmidb`.`realm`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `gmidb`.`realm` ;
+create table realm
+(
+	id int auto_increment
+		primary key,
+	name varchar(30) not null,
+	location varchar(5) not null
+)
+;
 
-CREATE TABLE IF NOT EXISTS `gmidb`.`realm` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(30) NOT NULL,
-  `location` VARCHAR(5) NOT NULL,
-  PRIMARY KEY (`id`))
-  ENGINE = InnoDB
-  AUTO_INCREMENT = 7
-  DEFAULT CHARSET = utf8;
+create table specificationdps
+(
+	id int auto_increment
+		primary key,
+	dps int not null,
+	classSpecification_id int not null,
+	constraint fk_specificationDPS_classSpecification
+		foreign key (classSpecification_id) references gmidb.classspecification (id)
+)
+;
 
+create index fk_specificationDPS_classSpecification_idx
+	on specificationdps (classSpecification_id)
+;
 
--- -----------------------------------------------------
--- Table `gmidb`.`tooltip_params`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `gmidb`.`tooltip_params` ;
+create table wowcharacter
+(
+	id int auto_increment
+		primary key,
+	name varchar(45) not null,
+	dps int not null,
+	realm_id int not null,
+	classspecification_id int not null,
+	thumbnail_id varchar(45) null,
+	head_id int not null,
+	neck_id int not null,
+	shoulder_id int not null,
+	back_id int not null,
+	skirt_id int not null,
+	chest_id int not null,
+	wrist_id int not null,
+	main_hand_id int not null,
+	off_hand_id int not null,
+	hands_id int not null,
+	finger_1_id int not null,
+	finger_2_id int not null,
+	waist_id int not null,
+	legs_id int not null,
+	feet_id int not null,
+	trinket_1_id int not null,
+	trinket_2_id int not null,
+	average_item_level int not null,
+	average_item_level_equipped int not null,
+	constraint fk_character_realm1
+		foreign key (realm_id) references gmidb.realm (id),
+	constraint fk_character_classspecification1
+		foreign key (classspecification_id) references gmidb.classspecification (id),
+	constraint fk_wowcharacter_item1
+		foreign key (head_id) references gmidb.item (id),
+	constraint fk_wowcharacter_item2
+		foreign key (neck_id) references gmidb.item (id),
+	constraint fk_wowcharacter_item3
+		foreign key (shoulder_id) references gmidb.item (id),
+	constraint fk_wowcharacter_item4
+		foreign key (back_id) references gmidb.item (id),
+	constraint fk_wowcharacter_item5
+		foreign key (skirt_id) references gmidb.item (id),
+	constraint fk_wowcharacter_item6
+		foreign key (chest_id) references gmidb.item (id),
+	constraint fk_wowcharacter_item7
+		foreign key (wrist_id) references gmidb.item (id),
+	constraint fk_wowcharacter_item8
+		foreign key (main_hand_id) references gmidb.item (id),
+	constraint fk_wowcharacter_item9
+		foreign key (off_hand_id) references gmidb.item (id),
+	constraint fk_wowcharacter_item10
+		foreign key (hands_id) references gmidb.item (id),
+	constraint fk_wowcharacter_item11
+		foreign key (finger_1_id) references gmidb.item (id),
+	constraint fk_wowcharacter_item12
+		foreign key (finger_2_id) references gmidb.item (id),
+	constraint fk_wowcharacter_item13
+		foreign key (waist_id) references gmidb.item (id),
+	constraint fk_wowcharacter_item14
+		foreign key (legs_id) references gmidb.item (id),
+	constraint fk_wowcharacter_item15
+		foreign key (feet_id) references gmidb.item (id),
+	constraint fk_wowcharacter_item16
+		foreign key (trinket_1_id) references gmidb.item (id),
+	constraint fk_wowcharacter_item17
+		foreign key (trinket_2_id) references gmidb.item (id)
+)
+;
 
-CREATE TABLE IF NOT EXISTS `gmidb`.`tooltip_params` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `enchant` INT(11) NULL DEFAULT NULL,
-  `gem0` INT(11) NULL DEFAULT NULL,
-  `gem1` INT(11) NULL DEFAULT NULL,
-  `gem2` INT(11) NULL DEFAULT NULL,
-  `transmog_item` INT(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
-  ENGINE = InnoDB
-  AUTO_INCREMENT = 18
-  DEFAULT CHARSET = utf8;
+create index fk_character_classspecification1_idx
+	on wowcharacter (classspecification_id)
+;
 
+create index fk_character_realm1_idx
+	on wowcharacter (realm_id)
+;
 
--- -----------------------------------------------------
--- Table `gmidb`.`item`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `gmidb`.`item` ;
+create index fk_wowcharacter_item10_idx
+	on wowcharacter (hands_id)
+;
 
-CREATE TABLE IF NOT EXISTS `gmidb`.`item` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `item_id` INT(11) NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
-  `item_level` INT(11) NOT NULL,
-  `armor` INT(11) NULL DEFAULT NULL,
-  `quality` INT(11) NULL DEFAULT NULL,
-  `tooltip_params_id` INT(11) NULL DEFAULT NULL,
-  `context` VARCHAR(45) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_item_tooltip_params1_idx` (`tooltip_params_id` ASC),
-  CONSTRAINT `fk_item_tooltip_params1`
-  FOREIGN KEY (`tooltip_params_id`)
-  REFERENCES `gmidb`.`tooltip_params` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-  ENGINE = InnoDB
-  AUTO_INCREMENT = 18
-  DEFAULT CHARSET = utf8;
+create index fk_wowcharacter_item11_idx
+	on wowcharacter (finger_1_id)
+;
 
+create index fk_wowcharacter_item12_idx
+	on wowcharacter (finger_2_id)
+;
 
--- -----------------------------------------------------
--- Table `gmidb`.`wowcharacter`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `gmidb`.`wowcharacter` ;
+create index fk_wowcharacter_item13_idx
+	on wowcharacter (waist_id)
+;
 
-CREATE TABLE IF NOT EXISTS `gmidb`.`wowcharacter` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `dps` INT(11) NOT NULL,
-  `realm_id` INT(11) NOT NULL,
-  `classspecification_id` INT(11) NOT NULL,
-  `thumbnail_id` VARCHAR(45) NULL DEFAULT NULL,
-  `head_id` INT(11) NOT NULL,
-  `neck_id` INT(11) NOT NULL,
-  `shoulder_id` INT(11) NOT NULL,
-  `back_id` INT(11) NOT NULL,
-  `skirt_id` INT(11) NOT NULL,
-  `chest_id` INT(11) NOT NULL,
-  `wrist_id` INT(11) NOT NULL,
-  `main_hand_id` INT(11) NOT NULL,
-  `off_hand_id` INT(11) NOT NULL,
-  `hands_id` INT(11) NOT NULL,
-  `finger_1_id` INT(11) NOT NULL,
-  `finger_2_id` INT(11) NOT NULL,
-  `waist_id` INT(11) NOT NULL,
-  `legs_id` INT(11) NOT NULL,
-  `feet_id` INT(11) NOT NULL,
-  `trinket_1_id` INT(11) NOT NULL,
-  `trinket_2_id` INT(11) NOT NULL,
-  `average_item_level` INT(11) NOT NULL,
-  `average_item_level_equipped` INT(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_character_realm1_idx` (`realm_id` ASC),
-  INDEX `fk_character_classspecification1_idx` (`classspecification_id` ASC),
-  INDEX `fk_wowcharacter_item1_idx` (`head_id` ASC),
-  INDEX `fk_wowcharacter_item2_idx` (`neck_id` ASC),
-  INDEX `fk_wowcharacter_item3_idx` (`shoulder_id` ASC),
-  INDEX `fk_wowcharacter_item4_idx` (`back_id` ASC),
-  INDEX `fk_wowcharacter_item5_idx` (`skirt_id` ASC),
-  INDEX `fk_wowcharacter_item6_idx` (`chest_id` ASC),
-  INDEX `fk_wowcharacter_item7_idx` (`wrist_id` ASC),
-  INDEX `fk_wowcharacter_item8_idx` (`main_hand_id` ASC),
-  INDEX `fk_wowcharacter_item9_idx` (`off_hand_id` ASC),
-  INDEX `fk_wowcharacter_item10_idx` (`hands_id` ASC),
-  INDEX `fk_wowcharacter_item11_idx` (`finger_1_id` ASC),
-  INDEX `fk_wowcharacter_item12_idx` (`finger_2_id` ASC),
-  INDEX `fk_wowcharacter_item13_idx` (`waist_id` ASC),
-  INDEX `fk_wowcharacter_item14_idx` (`legs_id` ASC),
-  INDEX `fk_wowcharacter_item15_idx` (`feet_id` ASC),
-  INDEX `fk_wowcharacter_item16_idx` (`trinket_1_id` ASC),
-  INDEX `fk_wowcharacter_item17_idx` (`trinket_2_id` ASC),
-  CONSTRAINT `fk_character_classspecification1`
-  FOREIGN KEY (`classspecification_id`)
-  REFERENCES `gmidb`.`classspecification` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_character_realm1`
-  FOREIGN KEY (`realm_id`)
-  REFERENCES `gmidb`.`realm` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_wowcharacter_item1`
-  FOREIGN KEY (`head_id`)
-  REFERENCES `gmidb`.`item` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_wowcharacter_item10`
-  FOREIGN KEY (`hands_id`)
-  REFERENCES `gmidb`.`item` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_wowcharacter_item11`
-  FOREIGN KEY (`finger_1_id`)
-  REFERENCES `gmidb`.`item` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_wowcharacter_item12`
-  FOREIGN KEY (`finger_2_id`)
-  REFERENCES `gmidb`.`item` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_wowcharacter_item13`
-  FOREIGN KEY (`waist_id`)
-  REFERENCES `gmidb`.`item` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_wowcharacter_item14`
-  FOREIGN KEY (`legs_id`)
-  REFERENCES `gmidb`.`item` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_wowcharacter_item15`
-  FOREIGN KEY (`feet_id`)
-  REFERENCES `gmidb`.`item` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_wowcharacter_item16`
-  FOREIGN KEY (`trinket_1_id`)
-  REFERENCES `gmidb`.`item` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_wowcharacter_item17`
-  FOREIGN KEY (`trinket_2_id`)
-  REFERENCES `gmidb`.`item` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_wowcharacter_item2`
-  FOREIGN KEY (`neck_id`)
-  REFERENCES `gmidb`.`item` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_wowcharacter_item3`
-  FOREIGN KEY (`shoulder_id`)
-  REFERENCES `gmidb`.`item` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_wowcharacter_item4`
-  FOREIGN KEY (`back_id`)
-  REFERENCES `gmidb`.`item` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_wowcharacter_item5`
-  FOREIGN KEY (`skirt_id`)
-  REFERENCES `gmidb`.`item` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_wowcharacter_item6`
-  FOREIGN KEY (`chest_id`)
-  REFERENCES `gmidb`.`item` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_wowcharacter_item7`
-  FOREIGN KEY (`wrist_id`)
-  REFERENCES `gmidb`.`item` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_wowcharacter_item8`
-  FOREIGN KEY (`main_hand_id`)
-  REFERENCES `gmidb`.`item` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_wowcharacter_item9`
-  FOREIGN KEY (`off_hand_id`)
-  REFERENCES `gmidb`.`item` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-  ENGINE = InnoDB
-  AUTO_INCREMENT = 2
-  DEFAULT CHARSET = utf8;
+create index fk_wowcharacter_item14_idx
+	on wowcharacter (legs_id)
+;
 
+create index fk_wowcharacter_item15_idx
+	on wowcharacter (feet_id)
+;
 
--- -----------------------------------------------------
--- Table `gmidb`.`characteraccountrelation`
--- -----------------------------------------------------
--- DROP TABLE IF EXISTS `gmidb`.`characteraccountrelation`;
+create index fk_wowcharacter_item16_idx
+	on wowcharacter (trinket_1_id)
+;
 
--- CREATE TABLE IF NOT EXISTS `gmidb`.`characteraccountrelation` (
- -- `id` INT(11) NOT NULL AUTO_INCREMENT,
---  `character_id` INT(11) NOT NULL,
- -- `account_id` INT(11) NOT NULL,
- -- PRIMARY KEY (`id`),
---  INDEX `characteraccountrelation_wowcharacter_id_fk` (`character_id` ASC),
--- INDEX `characteraccountrelation_account_id_fk` (`account_id` ASC),
--- CONSTRAINT `characteraccountrelation_account_id_fk`
--- FOREIGN KEY (`account_id`)
--- REFERENCES `gmidb`.`account` (`id`),
--- CONSTRAINT `characteraccountrelation_wowcharacter_id_fk`
--- FOREIGN KEY (`character_id`)
--- REFERENCES `gmidb`.`wowcharacter` (`id`))
--- ENGINE = InnoDB
--- DEFAULT CHARSET = utf8;
+create index fk_wowcharacter_item17_idx
+	on wowcharacter (trinket_2_id)
+;
 
+create index fk_wowcharacter_item1_idx
+	on wowcharacter (head_id)
+;
 
--- -----------------------------------------------------
--- Table `gmidb`.`specificationdps`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `gmidb`.`specificationdps` ;
+create index fk_wowcharacter_item2_idx
+	on wowcharacter (neck_id)
+;
 
-CREATE TABLE IF NOT EXISTS `gmidb`.`specificationdps` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `dps` INT(11) NOT NULL,
-  `classSpecification_id` INT(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_specificationDPS_classSpecification_idx` (`classSpecification_id` ASC),
-  CONSTRAINT `fk_specificationDPS_classSpecification`
-  FOREIGN KEY (`classSpecification_id`)
-  REFERENCES `gmidb`.`classspecification` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-  ENGINE = InnoDB
-  AUTO_INCREMENT = 37
-  DEFAULT CHARSET = utf8;
+create index fk_wowcharacter_item3_idx
+	on wowcharacter (shoulder_id)
+;
+
+create index fk_wowcharacter_item4_idx
+	on wowcharacter (back_id)
+;
+
+create index fk_wowcharacter_item5_idx
+	on wowcharacter (skirt_id)
+;
+
+create index fk_wowcharacter_item6_idx
+	on wowcharacter (chest_id)
+;
+
+create index fk_wowcharacter_item7_idx
+	on wowcharacter (wrist_id)
+;
+
+create index fk_wowcharacter_item8_idx
+	on wowcharacter (main_hand_id)
+;
+
+create index fk_wowcharacter_item9_idx
+	on wowcharacter (off_hand_id)
+;
+
+alter table characteraccountrelation
+	add constraint characteraccountrelation_wowcharacter_id_fk
+		foreign key (character_id) references gmidb.wowcharacter (id)
+;
+
+create table wowclass
+(
+	id int auto_increment
+		primary key,
+	name varchar(45) not null,
+	constraint classname_UNIQUE
+		unique (name)
+)
+;
+
+alter table classspecification
+	add constraint fk_classSpecification_WOWClass1
+		foreign key (WOWClass_id) references gmidb.wowclass (id)
+;

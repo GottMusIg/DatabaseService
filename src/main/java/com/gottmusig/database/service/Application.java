@@ -1,8 +1,6 @@
 package com.gottmusig.database.service;
 
 import com.gottmusig.database.service.configuration.DatabaseServiceConfiguration;
-import com.gottmusig.database.service.domain.GottMusIg;
-import com.gottmusig.database.service.domain.character.Character;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -18,9 +16,7 @@ public class Application extends SpringApplication {
     }
 
     public static void main(String[] args) {
-
         ConfigurableApplicationContext run = new Application().run(args);
-
     }
 
 

@@ -21,7 +21,7 @@ public interface AccountService {
      * @return the created Account Entity if request is successful
      * @throws CharacterAlreadyExistsException, if the username is already in use.
      */
-    Account register(String userName, String password) throws CharacterAlreadyExistsException;
+    Account register(String userName, String password);
 
     /**
      * Deletes the given Account

@@ -15,9 +15,11 @@ public class EquipmentSetImpl implements EquipmentSet {
 
     private static WoWHeadTooltipGenerator woWHeadTooltipGenerator = new WoWHeadTooltipGenerator();
 
-    private final static String ICON_TOOLTIP_PREFIX = "http://media.blizzard.com/wow/icons/56/";
+    private static final String ICON_TOOLTIP_PREFIX = "http://media.blizzard.com/wow/icons/56/";
 
-    private final static String ICON_TOOLTIP_SUFFIX = ".jpg";
+    private static final String ICON_TOOLTIP_SUFFIX = ".jpg";
+
+    public static final String EMPTY_SLOT = "empty slot";
 
 
     private Long averageItemLevel;
@@ -106,11 +108,11 @@ public class EquipmentSetImpl implements EquipmentSet {
         ItemEntity itemEntity = new ItemEntity();
 
         if (source == null) {
-            itemEntity.setWowHeadTooltip("empty slot");
-            itemEntity.setContext("empty slot");
-            itemEntity.setName("empty slot");
+            itemEntity.setWowHeadTooltip(EMPTY_SLOT);
+            itemEntity.setContext(EMPTY_SLOT);
+            itemEntity.setName(EMPTY_SLOT);
             itemEntity.setItemLevel(0L);
-            itemEntity.setIconTooltip("empty slot");
+            itemEntity.setIconTooltip(EMPTY_SLOT);
             return itemEntity;
         }
         WoWHeadToolTip wowHeadTooltip = woWHeadTooltipGenerator.convert(source);

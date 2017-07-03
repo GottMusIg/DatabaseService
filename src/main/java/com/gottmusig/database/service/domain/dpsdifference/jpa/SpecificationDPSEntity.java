@@ -4,7 +4,6 @@ import com.gottmusig.database.service.domain.character.jpa.ClassSpecificationEnt
 import com.gottmusig.database.service.domain.dpsdifference.SpecificationDPS;
 import com.gottmusig.database.service.domain.jpa.NumericSequenceId;
 import com.gottmusig.database.service.domain.jpa.SpringEntityListener;
-
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 
@@ -71,9 +70,6 @@ public class SpecificationDPSEntity implements SpecificationDPS {
         List<SpecificationDPS> findByDpsGreaterThan(int dps, Sort sort);
 
         SpecificationDPS findFirstByDpsGreaterThan(int dps, Sort sort);
-
-
-        SpecificationDPS findBySpecification_Id(NumericSequenceId specification_id);
 
     }
 }
