@@ -1,9 +1,5 @@
 package com.gottmusig.database.service.domain.simulation.jpa;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gottmusig.database.service.domain.character.Character;
 import com.gottmusig.database.service.domain.character.jpa.exception.CharacterNotFoundException;
@@ -33,6 +29,8 @@ import java.io.IOException;
 @Service
 @PropertySource({ "classpath:/simulation.properties" })
 public class SimulationServiceImpl implements SimulationService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SpringEntityListener.class);
 
     @Autowired
     private Environment env;
