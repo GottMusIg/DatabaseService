@@ -28,7 +28,7 @@ public class RealmServiceImpl implements RealmService {
 
     @Override
     public List<Realm> getAllRealms(Location location) {
-        return realmRepository.findByLocation(location.name());
+        return realmRepository.findByLocation(location.getName());
     }
 
     @Override
