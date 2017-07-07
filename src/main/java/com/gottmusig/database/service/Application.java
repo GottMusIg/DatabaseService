@@ -17,6 +17,4 @@ public class Application extends SpringApplication {
     public static void main(String[] args) {
         new Application().run(args);
     }
-
-
 }
