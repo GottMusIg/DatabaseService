@@ -6,6 +6,7 @@ import com.gottmusig.database.service.domain.jpa.NumericSequenceId;
 import com.gottmusig.database.service.domain.jpa.SpringEntityListener;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * @author leong
  * @since 20.11.2016
  */
+@Component
 @Entity
 @Table(name = "specificationdps")
 @EntityListeners(SpringEntityListener.class)
@@ -44,16 +46,10 @@ public class SpecificationDPSEntity implements SpecificationDPS {
     public ClassSpecificationEntity getSpecification() {
         return specification;
     }
-    public void setSpecification(ClassSpecificationEntity specification) {
-        this.specification = specification;
-    }
 
     @Override
     public NumericSequenceId getId() {
         return id;
-    }
-    public void setId(NumericSequenceId id) {
-        this.id = id;
     }
 
     @Override
@@ -70,6 +66,8 @@ public class SpecificationDPSEntity implements SpecificationDPS {
         List<SpecificationDPS> findByDpsGreaterThan(int dps, Sort sort);
 
         SpecificationDPS findFirstByDpsGreaterThan(int dps, Sort sort);
+
+        SpecificationDPS findBySpecification (ClassSpecificationEntity specification);
 
     }
 }

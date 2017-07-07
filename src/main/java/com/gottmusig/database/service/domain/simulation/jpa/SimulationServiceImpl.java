@@ -32,15 +32,16 @@ public class SimulationServiceImpl implements SimulationService {
 
     private static final Logger LOG = LoggerFactory.getLogger(SpringEntityListener.class);
 
-    @Autowired
-    private Environment env;
+    private final Environment env;
 
     private ObjectMapper mapper = new ObjectMapper();
 
     private final Client client;
 
-    public SimulationServiceImpl(){
+    @Autowired
+    public SimulationServiceImpl(Environment env){
         client = ClientBuilder.newClient();
+        this.env = env;
     }
 
 

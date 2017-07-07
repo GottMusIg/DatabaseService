@@ -23,9 +23,8 @@ public interface Account extends Entity {
      * Add a World of Warcraft Character to an existing Account
      *
      * @param character, the character to save to the account
-     * @return the Account with the added character.
      */
-    Character addCharacter(Character character);
+    void addCharacter(Character character);
 
     /**
      *

@@ -1,7 +1,9 @@
 package com.gottmusig.database.service;
 
 import com.gottmusig.database.service.configuration.DatabaseServiceConfiguration;
+import com.gottmusig.database.service.domain.character.jpa.ClassSpecificationEntity;
 import org.springframework.boot.SpringApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * @author leong
@@ -15,6 +17,10 @@ public class Application extends SpringApplication {
     }
 
     public static void main(String[] args) {
-        new Application().run(args);
+        ConfigurableApplicationContext run = new Application().run(args);
+        ClassSpecificationEntity.ClassSpecificationRepository bean = run.getBean(ClassSpecificationEntity.ClassSpecificationRepository.class);
+        ClassSpecificationEntity fury = bean.findByName("Fury");
+
+
     }
 }

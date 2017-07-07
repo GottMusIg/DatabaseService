@@ -2,17 +2,18 @@ package com.gottmusig.database.service.domain.account.jpa;
 
 import com.gottmusig.database.service.domain.account.Account;
 import com.gottmusig.database.service.domain.character.Character;
-import com.gottmusig.database.service.domain.character.CharacterService;
 import com.gottmusig.database.service.domain.character.jpa.CharacterEntity;
 import com.gottmusig.database.service.domain.jpa.NumericSequenceId;
 import com.gottmusig.database.service.domain.jpa.SpringEntityListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Description
@@ -20,16 +21,14 @@ import java.util.Set;
  * @author lgottschick
  * @since 1.0.0-SNAPSHOT
  */
+@Component
 @Entity
 @Table(name = "account")
 @EntityListeners(SpringEntityListener.class)
 public class AccountEntity implements Account {
 
     @Autowired
-    private transient CharacterAccountRelationEntity.CharacterAccountRelationRepository accountRelationRepository;
-
-    @Autowired
-    private transient CharacterService characterService;
+    private transient AccountRepository accountRepository;
 
     @EmbeddedId
     private NumericSequenceId id;
@@ -69,35 +68,19 @@ public class AccountEntity implements Account {
     }
 
     @Override
-    public Character addCharacter(Character character) {
-        Optional<CharacterAccountRelationEntity> relationEntityOptional = accountRelationRepository
-                .findFirstByAccountAndCharacter(
-                this, (CharacterEntity) character);
-        if (!relationEntityOptional.isPresent()) {
-            addAccountRelation(character);
-            characters.add((CharacterEntity) character);
-        }
-        return character;
-    }
-
-    private void addAccountRelation(Character character) {
-        Character updatedCharacter = characterService.saveCharacter(character);
-        CharacterAccountRelationEntity characterAccountRelationEntity = new CharacterAccountRelationEntity();
-        characterAccountRelationEntity.setAccount(this);
-        characterAccountRelationEntity.setCharacter((CharacterEntity) updatedCharacter);
-        accountRelationRepository.save(characterAccountRelationEntity);
+    public void addCharacter(Character character) {
+       characters.add((CharacterEntity) character);
+       accountRepository.save(this);
     }
 
     public void removeCharacter(Character character) {
-        CharacterAccountRelationEntity characterAccountRelation = accountRelationRepository.findFirstByAccount(this);
-        accountRelationRepository.delete(characterAccountRelation);
+        characters.remove(character);
+        accountRepository.save(this);
     }
 
     @Override
     public Set<Character> getCharacters() {
-        Set<Character> characterList = new HashSet<>();
-        characterList.addAll(this.characters);
-        return characterList;
+        return characters.stream().map(characterEntity -> (Character) characterEntity).collect(Collectors.toSet());
     }
 
     @Override
@@ -105,6 +88,7 @@ public class AccountEntity implements Account {
         return id;
     }
 
+    @Repository
     public interface AccountRepository extends CrudRepository<AccountEntity, NumericSequenceId> {
 
         Optional<Account> findByUserName(String userName);

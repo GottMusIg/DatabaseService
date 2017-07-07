@@ -7,6 +7,8 @@ import com.gottmusig.database.service.domain.dpsdifference.DPSDifferenceService;
 import com.gottmusig.database.service.domain.item.ItemService;
 import com.gottmusig.database.service.domain.realm.RealmService;
 import com.gottmusig.database.service.domain.simulation.SimulationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Description
@@ -14,6 +16,7 @@ import com.gottmusig.database.service.domain.simulation.SimulationService;
  * @author lgottschick
  * @since 1.0.0-SNAPSHOT
  */
+@Service
 public class GottMusIgImpl implements GottMusIg {
 
 	private final RealmService realmService;
@@ -23,6 +26,7 @@ public class GottMusIgImpl implements GottMusIg {
 	private final SimulationService simulationService;
 	private final DPSDifferenceService dpsDifferenceService;
 
+	@Autowired
 	public GottMusIgImpl(RealmService realmService,
 						 ItemService itemService,
 						 AccountService accountService,

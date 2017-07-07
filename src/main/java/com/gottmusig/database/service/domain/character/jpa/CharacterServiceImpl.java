@@ -26,12 +26,22 @@ import java.util.Optional;
 @Service
 public class CharacterServiceImpl implements CharacterService {
 
-    @Autowired SearchCharacterClient searchCharacterClient;
-    @Autowired CharacterRepository characterRepository;
-    @Autowired RealmRepository realmRepository;
-    @Autowired WOWClassRepository wowClassRepository;
+    private final SearchCharacterClient searchCharacterClient;
+    private final CharacterRepository characterRepository;
+    private final RealmRepository realmRepository;
+    private final WOWClassRepository wowClassRepository;
+    private final ClassSpecificationEntity.ClassSpecificationRepository classSpecificationRepository;
 
     private final Gson gson = new Gson();
+
+    @Autowired
+    public CharacterServiceImpl(SearchCharacterClient searchCharacterClient, CharacterRepository characterRepository, RealmRepository realmRepository, WOWClassRepository wowClassRepository, ClassSpecificationEntity.ClassSpecificationRepository classSpecificationRepository) {
+        this.searchCharacterClient = searchCharacterClient;
+        this.characterRepository = characterRepository;
+        this.realmRepository = realmRepository;
+        this.wowClassRepository = wowClassRepository;
+        this.classSpecificationRepository = classSpecificationRepository;
+    }
 
     @Override
     public Optional<Character> searchCharacter(String realmName, String name) {
@@ -69,15 +79,22 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     private CharacterEntity createCharacterFromResponse(String response) {
+
         WoWCharacter source = gson.fromJson(response, WoWCharacter.class);
         CharacterEntity characterEntity = new CharacterEntity();
         characterEntity.setThumbnailId(source.getThumbnail().replaceAll("-avatar[.]jpg",""));
-        ClassSpecificationEntity specificationEntity = new ClassSpecificationEntity();
-        specificationEntity.setName(source.getTalents().get(0).getSpec().getName());
+
+        String specificationName = source.getTalents().get(0).getSpec().getName();
         String wowClassName = WOWClassId.getWowClassName(source.getClazz());
-        specificationEntity.setWowClass(wowClassRepository.findByName(wowClassName));
+
+        WOWClassEntity wowClassEntity = wowClassRepository.findByName(wowClassName);
+        ClassSpecificationEntity specificationEntity = classSpecificationRepository
+                                                       .findByNameAndWowClass(specificationName, wowClassEntity);
+
         characterEntity.setClassSpecification(specificationEntity);
         characterEntity.setEquipmentSet(new EquipmentSetImpl(source.getItems()));
         return characterEntity;
+
     }
+
 }

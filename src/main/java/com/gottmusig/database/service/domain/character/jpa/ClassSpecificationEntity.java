@@ -8,14 +8,15 @@ import com.gottmusig.database.service.domain.jpa.NumericSequenceId;
 import com.gottmusig.database.service.domain.jpa.SpringEntityListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.util.Iterator;
 
 /**
  * @author leong
  * @since 20.11.2016
  */
+@Component
 @Entity
 @Table(name = "classspecification")
 @EntityListeners(SpringEntityListener.class)
@@ -40,16 +41,7 @@ public class ClassSpecificationEntity implements ClassSpecification {
 
     @Override
     public SpecificationDPS getSpecificationDPS() {
-        // fix
-        Iterator<SpecificationDPSEntity> iterator = specificationDPSRepository.findAll().iterator();
-        SpecificationDPS specificationDPS = null;
-        while (iterator.hasNext()) {
-            SpecificationDPSEntity next = iterator.next();
-            if (next.getSpecification().getName().equals(this.getName())) {
-                specificationDPS = next;
-            }
-        }
-        return specificationDPS;
+        return specificationDPSRepository.findBySpecification(this);
     }
 
     @Override

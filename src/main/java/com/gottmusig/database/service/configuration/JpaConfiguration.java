@@ -1,18 +1,14 @@
 package com.gottmusig.database.service.configuration;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.sql.DataSource;
-
+import com.gottmusig.database.service.domain.jpa.SpringEntityListener;
+import com.mysql.jdbc.Driver;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.boot.autoconfigure.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -23,8 +19,9 @@ import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import com.gottmusig.database.service.domain.jpa.SpringEntityListener;
-import com.mysql.jdbc.Driver;
+import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Main configuration for all JPA aspects. Couples Eclipse Link with Spring Data JPA.
@@ -34,12 +31,17 @@ import com.mysql.jdbc.Driver;
  */
 @Configuration
 @EnableJpaRepositories(basePackages = "com.gottmusig", considerNestedRepositories = true)
-@ComponentScan("com.gottmusig")
 @PropertySource({"classpath:/database.properties"})
 public class JpaConfiguration {
 
-    @Autowired Environment env;
-    @Autowired AutowireCapableBeanFactory beanFactory;
+    private final Environment env;
+    private final AutowireCapableBeanFactory beanFactory;
+
+    @Autowired
+    public JpaConfiguration(Environment env, AutowireCapableBeanFactory beanFactory) {
+        this.env = env;
+        this.beanFactory = beanFactory;
+    }
 
 
     @Bean
@@ -84,7 +86,7 @@ public class JpaConfiguration {
 
     @Bean
     public EntityManagerFactoryBuilder entityManagerFactoryBuilder() {
-        return new EntityManagerFactoryBuilder(jpaVendorAdapter(), jpaProperties(), null);
+        return new EntityManagerFactoryBuilder(jpaVendorAdapter(), jpaProperties().getProperties(), null);
     }
 
     @Bean

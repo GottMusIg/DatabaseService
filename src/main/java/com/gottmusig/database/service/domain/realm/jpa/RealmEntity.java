@@ -5,6 +5,7 @@ import com.gottmusig.database.service.domain.jpa.SpringEntityListener;
 import com.gottmusig.database.service.domain.realm.Realm;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 import java.util.List;
@@ -53,10 +54,8 @@ public class RealmEntity implements Realm {
     public NumericSequenceId getId() {
         return id;
     }
-    public void setId(NumericSequenceId id) {
-        this.id = id;
-    }
 
+    @Repository
     public interface RealmRepository extends CrudRepository<RealmEntity, NumericSequenceId> {
 
         List<Realm> findByLocation(String location);

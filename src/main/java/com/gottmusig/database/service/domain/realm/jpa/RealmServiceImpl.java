@@ -19,7 +19,12 @@ import java.util.Optional;
 @Service
 public class RealmServiceImpl implements RealmService {
 
-    @Autowired RealmRepository realmRepository;
+    private final RealmRepository realmRepository;
+
+    @Autowired
+    public RealmServiceImpl(RealmRepository realmRepository) {
+        this.realmRepository = realmRepository;
+    }
 
     @Override
     public List<Realm> getAllRealms() {

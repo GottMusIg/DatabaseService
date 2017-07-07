@@ -18,7 +18,12 @@ import java.util.Optional;
 @Service
 public class AccountServiceImpl implements AccountService {
 
-    @Autowired AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
+
+    @Autowired
+    public AccountServiceImpl(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
 
     @Override
     public Account register(String userName, String password) {
@@ -26,9 +31,7 @@ public class AccountServiceImpl implements AccountService {
         account.setPassword(password);
         account.setUserName(userName);
         Optional<Account> accountOptional = accountRepository.findByUserName(userName);
-        if(accountOptional.isPresent()) {
-            throw new CharacterAlreadyExistsException("User name already exists!");
-        }
+        accountOptional.ifPresent(acc -> new CharacterAlreadyExistsException(acc.getUserName() + "already exists"));
         return accountRepository.save(account);
     }
 

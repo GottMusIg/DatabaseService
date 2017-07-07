@@ -13,6 +13,8 @@ import com.gottmusig.database.service.domain.realm.jpa.RealmEntity;
 import com.gottmusig.database.service.domain.simulation.SimulationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 import java.util.Optional;
@@ -23,6 +25,7 @@ import java.util.Optional;
  * @author lgottschick
  * @since 1.0.0-SNAPSHOT
  */
+@Component
 @Entity
 @Table(name = "wowcharacter")
 @EntityListeners(SpringEntityListener.class)
@@ -130,8 +133,6 @@ public class CharacterEntity implements Character {
         this.id = new NumericSequenceId();
     }
 
-
-
     @Override
     public String getName() {
         return name;
@@ -219,6 +220,7 @@ public class CharacterEntity implements Character {
         return id;
     }
 
+    @Repository
     public interface CharacterRepository extends CrudRepository<CharacterEntity, NumericSequenceId> {
 
         Optional<Character> findByNameAndRealm(String name, Realm realm);

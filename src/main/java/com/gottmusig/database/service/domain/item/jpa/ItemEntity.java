@@ -4,6 +4,7 @@ import com.gottmusig.database.service.domain.item.Item;
 import com.gottmusig.database.service.domain.jpa.NumericSequenceId;
 import com.gottmusig.database.service.domain.jpa.SpringEntityListener;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 
@@ -90,8 +91,8 @@ public class ItemEntity implements Item {
         this.iconTooltip = iconTooltip;
     }
 
+    @Repository
     public interface ItemRepository extends CrudRepository<ItemEntity, NumericSequenceId> {
 
-        ItemEntity findByWowHeadTooltip(String wowHeadTooltip);
     }
 }

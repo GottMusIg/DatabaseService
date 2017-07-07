@@ -19,7 +19,7 @@ public class EquipmentSetImpl implements EquipmentSet {
 
     private static final String ICON_TOOLTIP_SUFFIX = ".jpg";
 
-    public static final String EMPTY_SLOT = "empty slot";
+    private static final String EMPTY_SLOT = "empty slot";
 
 
     private Long averageItemLevel;

@@ -19,15 +19,22 @@ public class DPSDifferenceServiceImpl implements DPSDifferenceService {
 
     private static final Sort DPSDIFFERENCE_SORT_ORDER = new Sort(Sort.Direction.DESC, "dps");
 
-    @Autowired SpecificationDPSEntity.SpecificationDPSRepository dpsRepository;
+    private static final int DPS_THRESHOLD = 0;
+
+    private final SpecificationDPSEntity.SpecificationDPSRepository dpsRepository;
+
+    @Autowired
+    public DPSDifferenceServiceImpl(SpecificationDPSEntity.SpecificationDPSRepository dpsRepository) {
+        this.dpsRepository = dpsRepository;
+    }
 
     @Override
     public List<SpecificationDPS> getDPSDifference() {
-        return dpsRepository.findByDpsGreaterThan(0, DPSDIFFERENCE_SORT_ORDER);
+        return dpsRepository.findByDpsGreaterThan(DPS_THRESHOLD, DPSDIFFERENCE_SORT_ORDER);
     }
 
     @Override
     public int getMaxDPSValue() {
-        return dpsRepository.findFirstByDpsGreaterThan(0, DPSDIFFERENCE_SORT_ORDER).getDPS();
+        return dpsRepository.findFirstByDpsGreaterThan(DPS_THRESHOLD, DPSDIFFERENCE_SORT_ORDER).getDPS();
     }
 }
